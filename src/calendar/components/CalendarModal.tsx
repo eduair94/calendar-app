@@ -9,6 +9,8 @@ import { FormI } from "./interface";
 import es from "date-fns/locale/es";
 import { useCalendarStore, useUiStore } from "../../hooks";
 import { CalendarEventI } from "../../store/calendar";
+import { useSelector } from "react-redux";
+import { RootState, AuthUserI } from "../../store";
 registerLocale("es", es);
 
 const customStyles = {
@@ -27,6 +29,9 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
   const { isDateModalOpen: isOpen, closeDateModal } = useUiStore();
   const { activeEvent, startSavingEvent } = useCalendarStore();
+  const { user } = useSelector((state: RootState) => state.auth) as {
+    user: AuthUserI;
+  };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formValues, setFormValues] = useState<FormI>({
@@ -91,6 +96,8 @@ export const CalendarModal = () => {
     setFormSubmitted(false);
   };
 
+  const isActiveUser = user._id === activeEvent?.user._id;
+
   return (
     <Modal
       className="modal"
@@ -114,6 +121,7 @@ export const CalendarModal = () => {
             dateFormat="Pp"
             showTimeSelect
             timeCaption="Hora"
+            readOnly={!isActiveUser}
           />
         </div>
 
@@ -129,6 +137,7 @@ export const CalendarModal = () => {
             dateFormat="Pp"
             showTimeSelect
             timeCaption="Hora"
+            readOnly={!isActiveUser}
           />
         </div>
 
@@ -143,6 +152,7 @@ export const CalendarModal = () => {
             autoComplete="off"
             value={formValues.title}
             onChange={onInputChange}
+            readOnly={!isActiveUser}
           />
           <small id="emailHelp" className="form-text text-muted">
             Una descripción corta
@@ -157,13 +167,18 @@ export const CalendarModal = () => {
             name="notes"
             value={formValues.notes}
             onChange={onInputChange}
+            readOnly={!isActiveUser}
           ></textarea>
           <small id="emailHelp" className="form-text text-muted">
             Información adicional
           </small>
         </div>
 
-        <button type="submit" className="btn btn-outline-primary btn-block">
+        <button
+          disabled={!isActiveUser}
+          type="submit"
+          className="btn btn-outline-primary btn-block"
+        >
           <i className="far fa-save"></i>
           <span> Guardar</span>
         </button>

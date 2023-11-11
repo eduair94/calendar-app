@@ -1,8 +1,9 @@
-import { useCalendarStore, useUiStore } from "../../hooks";
+import { useAuthStore, useCalendarStore, useUiStore } from "../../hooks";
 
 export const FabAddNew = () => {
   const { openDateModal } = useUiStore();
   const { setActiveEvent } = useCalendarStore();
+  const { user } = useAuthStore();
 
   const handleClickNew = () => {
     openDateModal();
@@ -12,10 +13,7 @@ export const FabAddNew = () => {
       start: null,
       end: null,
       bgColor: "#fafafa",
-      user: {
-        _id: "123",
-        name: "Fernando",
-      },
+      user,
     });
   };
 

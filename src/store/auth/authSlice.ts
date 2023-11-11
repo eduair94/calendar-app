@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { AuthStateI, AuthStatus } from './auth.interface';
+import { AuthStateI, AuthStatus, AuthUserI } from './auth.interface';
 
 
 const initialState:AuthStateI = {
@@ -17,7 +17,7 @@ export const authSlice = createSlice({
         state.user = {}
         state.errorMessage = undefined
     },
-    onLogin: (state, action) => {
+    onLogin: (state, action:PayloadAction<AuthUserI>) => {
         state.status = AuthStatus.authenticated;
         state.user = action.payload
         state.errorMessage = undefined;

@@ -1,24 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { addHours } from 'date-fns';
 import { CalendarEventI } from './';
 
-const tempEvent:CalendarEventI = {
-    _id: new Date().getTime(),
-    title: "Cumpleaños del Jefe",
-    notes: "Hay que comprar pastel",
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgColor: "#fafafa",
-    user: {
-      _id: "123",
-      name: "Fernando",
-    },
-}
-
 const initialState = {
-  events: [
-    tempEvent
-  ],
+  isLoadingEvents: true,
+  events: [] as CalendarEventI[],
   activeEvent: null as CalendarEventI | null
 }
 
@@ -26,6 +11,13 @@ export const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
+    onLoadEvents(state, {payload}:PayloadAction<CalendarEventI[]>) {
+      state.isLoadingEvents = false;
+      payload.forEach((event) => {
+        const exists = state.events.some((e) => e.id === event.id);
+        if(!exists) state.events.push(event);
+      })
+    },
     onSetActiveEvent(state, {payload}:PayloadAction<CalendarEventI>) {
       state.activeEvent = payload;
     },
@@ -34,14 +26,19 @@ export const calendarSlice = createSlice({
       state.activeEvent = null;
     },
     onUpdateEvent: (state, {payload}:PayloadAction<CalendarEventI>) => {
+      console.log("Update event", payload, state.events);
       state.events = state.events.map(event => {
-        if(event._id === payload._id) return payload;
+        if(event.id === payload.id) return payload;
         return event;
       })
     },
     onDeleteEvent: (state) => {
       if(!state.activeEvent) return;
-      state.events = state.events.filter(event=> event._id !== state.activeEvent?._id)
+      state.events = state.events.filter(event=> event.id !== state.activeEvent?.id)
+      state.activeEvent = null;
+    },
+    onLogoutCalendar(state) {
+      state.events = [];
       state.activeEvent = null;
     }
   }
@@ -51,7 +48,9 @@ export const {
   onDeleteEvent,
   onSetActiveEvent, 
   onAddNewEvent, 
-  onUpdateEvent
+  onUpdateEvent,
+  onLoadEvents,
+  onLogoutCalendar
 } = calendarSlice.actions
 
 export default calendarSlice.reducer

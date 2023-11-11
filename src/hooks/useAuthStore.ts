@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { AuthUserI, RootState, clearErrorMesssage, onChecking, onLogin, onLogout } from "../store";
+import { AuthUserI, RootState, clearErrorMesssage, onChecking, onLogin, onLogout, onLogoutCalendar } from "../store";
 import { calendarApi } from "../api";
 import { AxiosError } from "axios";
 
@@ -14,7 +14,7 @@ export const useAuthStore = () => {
             const {data} = await calendarApi.post('/auth', { email, password });
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-date', new Date().getTime().toString());
-            dispatch(onLogin({name: data.name, uid: data.uid}))
+            dispatch(onLogin({name: data.name, _id: data.uid}))
         } catch(error) {
             console.log("error", error);
             dispatch(onLogout("Invalid Email / Password"))
@@ -30,7 +30,7 @@ export const useAuthStore = () => {
             const {data} = await calendarApi.post('/auth/new', { name, email, password });
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-date', new Date().getTime().toString());
-            dispatch(onLogin({name: data.name, uid: data.uid}))
+            dispatch(onLogin({name: data.name, _id: data.uid}))
         } catch(error) {
             const axiosError = error as AxiosError<{msg: string}>;
             dispatch(onLogout(axiosError.response?.data.msg || 'Error'))
@@ -48,7 +48,7 @@ export const useAuthStore = () => {
             const {data} = await calendarApi.get('/auth/renew');
             localStorage.setItem('token', data.token);
             localStorage.setItem('token-init-date', new Date().getTime().toString());
-            dispatch(onLogin({name: data.name, uid: data.uid}))
+            dispatch(onLogin({name: data.name, _id: data.uid}))
         } catch(error) {
             localStorage.clear();
             dispatch(onLogout())
@@ -57,6 +57,7 @@ export const useAuthStore = () => {
 
     const startLogout = () => {
         localStorage.clear();
+        dispatch(onLogoutCalendar());
         dispatch(onLogout())
     }
 

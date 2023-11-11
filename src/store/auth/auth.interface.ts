@@ -6,7 +6,7 @@ export enum AuthStatus {
 
 export interface AuthUserI {
     name: string;
-    uid: string;
+    _id: string;
   }
   
 export interface AuthStateI {
