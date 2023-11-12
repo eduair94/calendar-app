@@ -4,7 +4,7 @@ export interface CalendarEventI {
     notes: string;
     start: Date | null;
     end: Date | null;
-    bgColor: string;
+    bgColor?: string;
     user: {
         _id: string;
         name: string;
