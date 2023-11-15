@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests in <AppRouter/> should show the login in case of not being authenticated 1`] = `
+<div>
+  <div
+    class="container login-container"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-md-6 login-form-1"
+      >
+        <h3>
+          Login
+        </h3>
+        <form>
+          <div
+            class="form-group mb-2"
+          >
+            <input
+              class="form-control"
+              name="loginEmail"
+              placeholder="Email"
+              type="email"
+              value=""
+            />
+          </div>
+          <div
+            class="form-group mb-2"
+          >
+            <input
+              class="form-control"
+              name="loginPassword"
+              placeholder="Password"
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            class="d-grid gap-2"
+          >
+            <input
+              class="btnSubmit"
+              type="submit"
+              value="Login"
+            />
+          </div>
+        </form>
+      </div>
+      <div
+        class="col-md-6 login-form-2"
+      >
+        <h3>
+          Register
+        </h3>
+        <form>
+          <div
+            class="form-group mb-2"
+          >
+            <input
+              class="form-control"
+              name="registerName"
+              placeholder="Name"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="form-group mb-2"
+          >
+            <input
+              class="form-control"
+              name="registerEmail"
+              placeholder="Email"
+              type="email"
+              value=""
+            />
+          </div>
+          <div
+            class="form-group mb-2"
+          >
+            <input
+              class="form-control"
+              name="registerPassword"
+              placeholder="Password"
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            class="form-group mb-2"
+          >
+            <input
+              class="form-control"
+              name="registerPasswordRepeat"
+              placeholder="Repeat your password"
+              type="password"
+              value=""
+            />
+          </div>
+          <div
+            class="d-grid gap-2"
+          >
+            <input
+              class="btnSubmit"
+              type="submit"
+              value="Create account"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+`;

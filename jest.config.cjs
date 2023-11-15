@@ -9,5 +9,8 @@ module.exports = {
   transformIgnorePatterns: [
 		
 	],
-  setupFiles: ['./jest.setup.cjs']
+  setupFiles: ['./jest.setup.cjs'],
+  moduleNameMapper: {
+      '\\.(css|less)$': '<rootDir>/tests/mocks/styleMock.cjs',
+  },
 };

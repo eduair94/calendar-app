@@ -1,5 +1,5 @@
-import { CalendarEventI, calendarSlice, onAddNewEvent, onSetActiveEvent, onUpdateEvent } from "../../../src/store/calendar"
-import { calendarWithEventState, events, initialState } from "../../fixtures/calendarState";
+import { CalendarEventI, calendarSlice, onAddNewEvent, onDeleteEvent, onLoadEvents, onLogoutCalendar, onSetActiveEvent, onUpdateEvent } from "../../../src/store/calendar"
+import { calendarWithActiveEventState, calendarWithEventState, events, initialState } from "../../fixtures/calendarState";
 import { testUserCredentials } from "../../fixtures/testUser";
 
 describe('Test calendarSlice.ts', () => {
@@ -41,4 +41,24 @@ describe('Test calendarSlice.ts', () => {
         const state = calendarSlice.reducer(calendarWithEventState, onUpdateEvent(updatedEvent));
         expect(state.events).toContain(updatedEvent);
     });
+
+    it('onDeleteEvent must delete activeEvent', () => {
+        const state = calendarSlice.reducer(calendarWithActiveEventState, onDeleteEvent());
+        expect(state.activeEvent).toBeNull();
+        expect(state.events).not.toContainEqual(calendarWithActiveEventState.activeEvent)
+    })
+
+    it('onLoadEvents must set the events', () => {
+        const state = calendarSlice.reducer(initialState, onLoadEvents(events));
+        expect(state.isLoadingEvents).toBeFalsy();
+        expect(state.events).toEqual(events);
+
+        const newState = calendarSlice.reducer(state, onLoadEvents(events));
+        expect(newState.events.length).toBe(events.length);
+    })
+
+    it('onLogout calendar must clear the state', () => {
+        const state = calendarSlice.reducer(calendarWithActiveEventState, onLogoutCalendar());
+        expect(state).toEqual(initialState);
+    })
 })

@@ -40,6 +40,7 @@ export const calendarSlice = createSlice({
     onLogoutCalendar(state) {
       state.events = [];
       state.activeEvent = null;
+      state.isLoadingEvents = true
     }
   }
 });
